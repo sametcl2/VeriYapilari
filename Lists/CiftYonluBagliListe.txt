@@ -1,0 +1,121 @@
+
+										   //**************************//
+namespace DataStructures							  //  ÇÝFT YÖNLÜ BAÐLI LÝSTE  // 
+{										 //**************************//
+	class Node
+	{
+		public Node next;
+		public int x;
+		public Node prev;
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Node root = new Node();
+			root.next = null;
+			root.prev = null;
+			root.x = 60;
+			root=EkleSirali(root, 30);
+			root = EkleSirali(root, 20);
+			root = EkleSirali(root, 80);
+			root = EkleSirali(root, 70);
+			root = EkleSirali(root, 90);
+			root = EkleSirali(root, 10);
+			Yazdir(root);
+			root = Sil(root, 70);
+			root = Sil(root, 90);
+			Yazdir(root);
+			Console.ReadLine();
+		}
+		public static void Yazdir(Node r)
+		{
+			while(r != null)
+			{
+				Console.WriteLine(r.x);			// burada hep ileri gittiðimiz için prev'le bir iþimiz yok
+				r = r.next;
+			}
+		}
+		public static void Ekle(Node r, int x)
+		{
+			if (r == null)
+			{
+				r = new Node();	   // eðer root'da hiç eleman yoksa yeni eleman ekle
+				r.next = null;
+				r.prev = null;	  // prev'de null hiç eleman olmadýðý için
+				r.x = x;
+			}
+			while (r.next != null)
+				r = r.next;
+			if (r.next == null)
+			{
+				r.next = new Node();
+				r.next.x = x;
+				r.next.next = null;
+				r.next.prev = r;
+			}
+		}
+		public static Node EkleSirali(Node r, int x) 
+		{
+			if (r == null)
+			{
+				r = new Node();
+				r.x = x;
+				r.next = null;
+				r.prev = null;
+				return r;
+			}
+			else if(r.x > x) // root'dan küçükse
+			{
+				Node temp = new Node(); 
+				temp.next = r;
+				temp.x = x;
+				r.prev = temp; // root'un prev'ini yeni node'a baðlamamýz lazým.
+				return temp;
+			}
+			else
+			{
+				Node iter = new Node();
+				iter = r;
+				while (iter.next != null && iter.next.x < x)
+					iter = iter.next;
+				Node temp = new Node();
+				temp.next = iter.next;
+				iter.next = temp;
+				temp.prev = iter;   //temp'in prev'i iter'i göstermeli
+				temp.x = x;
+				if (temp.next != null)  // eðer temp sona deðilde araya bir yere eklenecekse temp'den sonraki elemanýn 
+					temp.next.prev = temp;  // prev'ini temp'e baðlamamýz gerek.
+				return r;
+			}
+		}
+		public static Node Sil(Node r, int x) 
+		{
+			if (r.x == x)
+			{
+				r = r.next;
+				r.prev = null;
+				return r;
+			}
+			else
+			{
+				Node iter = new Node();
+				iter = r;
+				while (iter.next != null && iter.next.x != x)
+					iter = iter.next;
+				if (iter.next == null)
+				{
+					Console.WriteLine("Aranan sayý bulunamadý...");
+					return r;
+				}
+				else
+				{
+					iter.next = iter.next.next;
+					if (iter.next != null)    // Elemaný sildikten sonra diðer elemanýn prev'ini iter'e baðlamamýz lazým
+						iter.next.prev = iter; // eðer sildiðimiz eleman son elemansa diðer eleman null olacaðý için prev
+					return r;				   // ekleyemeyiz. Burda bunun kontrolünü yaptým
+				}				
+			}
+		}
+	}
+}

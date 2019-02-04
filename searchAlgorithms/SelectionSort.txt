@@ -1,0 +1,21 @@
+		static void Main(string[] args)
+		{
+			int[] dizi = { 5, 9, 10, 7, 5, 3, 1 };
+			for (int i = 0; i < dizi.Length-1; i++)
+			{
+				int min = i;
+				for (int j = i; j < dizi.Length; j++)
+				{
+					if (dizi[j] < dizi[min])
+						min = j;
+				}
+				int a = dizi[min];
+				dizi[min] = dizi[i];
+				dizi[i] = a;
+			}
+			foreach (var item in dizi)
+				Console.WriteLine(item);
+			Console.ReadLine();
+		}
+
+//En baþtaki elemanla dizinin bütün elemanlarýndan en küçük olan bulunur. Yerleri deðiþtirilir.

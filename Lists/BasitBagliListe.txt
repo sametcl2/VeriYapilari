@@ -1,0 +1,101 @@
+
+namespace DataStructures							//  BASÝT BAÐLI LÝSTE  // 
+{
+	class Node
+	{
+		public Node next;
+		public int x;
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Node root = new Node();
+			root.next = null;
+			root.x = 60;
+			root=EkleSirali(root, 50); // Buradaki root'u haberdar etmek lazým root deðiþmiþ olabilir. O yüzden her
+			root=EkleSirali(root, 10); // seferinde root'a eþitledim. Sadece root deðiþtiði zamanlarda lazým ama
+			root=EkleSirali(root, 500);// hepsinde yaptým ne olur ne olmaz diye.
+			root=EkleSirali(root, 300);
+			root=EkleSirali(root, 5);
+			root=EkleSirali(root,400);
+			Yazdir(root);
+			root=Sil(root, 5);  // Yine root'u silme ihtimalimiz olduðu için buradaki root'u haberdar ettim
+			Yazdir(root);			 
+			Console.ReadLine();
+		}
+		public static void Yazdir(Node r)
+		{
+			while (r != null)
+			{
+				Console.WriteLine(r.x);
+				r = r.next;
+			}
+		}
+		public static void Ekle(Node r, int x)
+		{
+			while (r.next != null) // eleman ekleneceði için bir sonrakine bakýlýyor
+				r = r.next;
+			if (r.next == null)
+			{
+				r.next = new Node();
+				r.next.x = x;
+				r.next.next = null;
+			}
+		}
+		public static Node EkleSirali(Node r, int x) // Node tipinde dönüyor
+		{
+			if (r == null) // eleman yoksa
+			{
+				r = new Node();
+				r.x = x;
+				r.next = null;
+				return r; // root döndür
+			}
+			else if(r.x > x) // sayi root'dan küçükse
+			{
+				Node temp = new Node();
+				temp.next = r;
+				temp.x = x;
+				return temp; // root deðiþtiði için temp'i geri döndürdüm
+			}
+			else // sayý root'dan küçük deðilse 
+			{
+				Node iter = new Node(); // root deðiþmemesi için iter tanýmladým
+				iter = r;
+				while(iter.next != null && iter.next.x < x) // listenin sonuna kadar ve iterden sonraki sayý eklenmek 
+					iter = iter.next;						// istenen sayýdan küçük olduðu sürece git 
+				Node temp = new Node();		// araya ekle
+				temp.next = iter.next;
+				iter.next = temp;
+				temp.x = x;
+				return r;  // root döndür, aslýnda gerek yok ama olsun.
+			}
+		}
+		public static Node Sil(Node r, int x) // Root deðiþebileceði için Node türünden
+		{
+			Node iter = new Node();
+			iter = r;
+			if (r.x == x)  // Eðer root'un kendisi silinecekse
+			{
+				r = r.next;
+				return r;
+			}
+			else
+			{
+				while (iter.next != null && iter.next.x != x) 
+					iter = iter.next;
+				if (iter.next == null)   // böyle bir sayý yoksa
+				{
+					Console.WriteLine("Sayý bulunamadý...");
+					return r;
+				}
+				else // ortada veya sondaysa (null deðilse)
+				{
+					iter.next = iter.next.next;
+					return r;
+				}
+			}
+		}
+	}
+}

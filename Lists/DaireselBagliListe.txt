@@ -1,0 +1,113 @@
+namespace DataStructures							//  DAÝRESEL BAÐLI LÝSTE  // 
+{
+	class Node
+	{
+		public Node next;
+		public int x;
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Node root = new Node();
+			root.next = root; // root en baþta kendini gösteriyor dairesel olduðu için
+			root.x = 60;
+			root=EkleSirali(root, 50); // Buradaki root'u haberdar etmek lazým root deðiþmiþ olabilir. O yüzden her
+			root=EkleSirali(root, 10); // seferinde root'a eþitledim. Sadece root deðiþtiði zamanlarda lazým ama
+			root = EkleSirali(root, 5);// hepsinde yaptým ne olur ne olmaz diye.			
+			Yazdir(root);
+			root=Sil(root, 5);  // Yine root'u silme ihtimalimiz olduðu için buradaki root'u haberdar ettim
+			Yazdir(root);			 
+			Console.ReadLine();
+		}
+		public static void Yazdir(Node r)
+		{
+			Node iter = new Node(); //root sabit kalmalý iter lazým
+			iter = r;   // iter listeyi dolaþýyor
+			Console.WriteLine(iter.x);  // bir kere elle bastýrmam lazým. Öbür türlü direk root'a eþit olduðu için 
+			iter = iter.next;			// döngüye girmeyecek.
+			while (iter != r) //Artýk dairesel olduðu için root'u görene kadar gidiyor
+			{
+				Console.WriteLine(iter.x);
+				iter = iter.next;
+			}
+		}
+		public static void Ekle(Node r, int x)
+		{
+			Node iter = new Node();
+			iter = r;	//yine iter lazým.
+			while (iter.next != r)   // eleman ekleneceði için bir sonrakine bakýlýyor. Artýk null olana kadar deðil root olana
+				iter= iter.next;     // kadar 
+			if (iter.next == r)
+			{
+				iter.next = new Node();
+				iter.next.next = r;   // null deðil root'u gösterecek son eleman olarak
+				iter.next.x = x;
+			}
+		}
+		public static Node EkleSirali(Node r, int x) // Node tipinde dönüyor.
+		{
+			if (r == null) // eleman yoksa
+			{
+				r = new Node();	
+				r.x = x;
+  				r.next = r;	//artýk kendine eþit olacak 
+				return r; // root döndür
+			}
+			else if(r.x > x) // sayi root'dan küçükse
+			{
+				Node temp = new Node();
+				temp.next = r;
+				temp.x = x;     // temp eklendi ama artýk sondaki elemanýn da temp'i göstermesi lazým
+			    	Node iter = new Node();
+				iter = r;
+				while (iter.next != r)
+					iter = iter.next;
+				iter.next = temp;
+				return temp; // root deðiþtiði için temp'i geri döndürdüm 
+			}
+			else // sayý root'dan küçük deðilse 
+			{
+				Node iter = new Node(); // root deðiþmemesi için iter tanýmladým
+				iter = r;
+				while(iter.next != r && iter.next.x < x) // listenin sonuna kadar ve iterden sonraki sayý eklenmek 
+					iter = iter.next;						// istenen sayýdan küçük olduðu sürece git 
+				Node temp = new Node();		// araya ekle
+				temp.next = iter.next;
+				iter.next = temp;
+				temp.x = x;
+				return r;  // root döndür, aslýnda gerek yok ama olsun.
+			}
+		}
+		public static Node Sil(Node r, int x) // Root deðiþebileceði için Node türünden
+		{			
+			if (r.x == x)  // Eðer root'un kendisi silinecekse
+			{
+				Node iter = new Node();
+				iter = r;
+				while (iter.next != r)
+					iter = iter.next;
+				iter.next = r.next;
+				r = r.next;
+				return r;
+			}
+			else
+			{
+				Node iter = new Node();
+				iter = r;
+				while (iter.next != r && iter.next.x != x) 
+					iter = iter.next;
+				if (iter.next == r)   // böyle bir sayý yoksa
+				{
+					Console.WriteLine("Sayý bulunamadý...");
+					return r;
+				}
+				else // ortada veya sondaysa (null deðilse)
+				{
+					iter.next = iter.next.next;
+					return r;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,20 @@
+			static void Main(string[] args)
+			{
+			int[] dizi = { 8, 7, 9, 3, 2, 4, 15, 80, 50 };
+			for (int i = 1; i < dizi.Length; i++)
+			{
+				int j = i - 1;
+				int key = dizi[i]; //key þart çünkü referans deðiþiyor
+				while(j>=0 && dizi[j] > key)
+				{
+					dizi[j + 1] = dizi[j];
+					j--;
+				}
+				dizi[j + 1] = key;
+			}	
+			foreach (var item in dizi)
+				Console.WriteLine(item);
+			Console.ReadLine();
+			}
+
+// i ye kadar olan arasýnda kýyaslanýr

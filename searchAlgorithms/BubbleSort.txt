@@ -1,0 +1,21 @@
+		static void Main(string[] args)
+		{
+			int[] dizi = { 8, 7, 9, 3, 2, 4, 15, 80, 50 };
+			for (int i = 0; i < dizi.Length; i++)
+			{
+				for (int j = 0; j < dizi.Length-1-i; j++) //Biraz iyileþtirme yapýlabilir. Her seferinde
+				{					//en büyük sayýyý sona attýðý için bir sonraki geçiþte
+					if (dizi[j] > dizi[j+1])	//sonraki elemana bakmaya gerek yoktur. i kadar azalttým.
+					{	
+						int temp = dizi[j + 1];
+						dizi[j + 1] = dizi[j];
+						dizi[j] = temp;
+					}
+				}
+			}
+			foreach (var item in dizi)
+				Console.WriteLine(item);
+			Console.ReadLine();
+		}
+
+// 2'li 2'li gider. Dizinin boyutu kadar döner

@@ -1,0 +1,111 @@
+	class Node
+	{
+		public Node left;
+		public Node right;
+		public int x;
+	}
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			Node root = null;
+			root = Insert(root, 50);
+			root = Insert(root, 60);
+			root = Insert(root, 10);
+			root = Insert(root, 100);
+			root = Insert(root, 12);
+			Print(root);
+			Console.WriteLine("***");
+			Max(root);
+			Min(root);
+			Search(root, 100);
+			Console.WriteLine("***");
+			root = Delete(root, 60);
+			Print(root);
+			Console.ReadLine();
+		}
+		static Node Insert(Node r, int x)
+		{
+			if(r == null)
+			{
+				r = new Node();
+				r.left = null;
+				r.right = null;
+				r.x = x;
+				return r;
+			}
+			else if (r.x<x)
+			{
+				r.right = Insert(r.right, x);
+				return r;
+			}
+			else
+			{
+				r.left = Insert(r.left, x);
+				return r;
+			}
+		}
+		static void Print(Node r)
+		{
+			if (r == null)
+				return;
+			Print(r.left);
+			Console.WriteLine("{0}",r.x);
+			Print(r.right);
+		}
+		static int Max(Node r)
+		{
+			while (r.right != null)
+				r = r.right;
+			return r.x;
+		}
+		static int Min(Node r)
+		{
+			while (r.left != null)
+				r = r.left;
+			return r.x;
+		}
+		static void Search(Node r, int x)
+		{
+			if (r == null)
+				Console.WriteLine("Sayý bulunamadý");
+			else if (r.x == x)
+				Console.WriteLine("Sayý bulundu");
+			else if (r.x > x)
+			    Search(r.left, x);
+			else
+				Search(r.right, x);
+		}
+		static Node Delete(Node r, int x)
+		{
+			if (r == null)
+				return null;
+			else if(r.x == x)
+			{
+				if (r.left == null && r.right == null)
+					return null;
+				else if(r.right != null)
+				{
+					r.x = Min(r.right);
+					r.right = Delete(r.right, Min(r.right));
+					return r;
+				}
+				else
+				{
+					r.x = Max(r.left);
+					r.left = Delete(r.left, Max(r.left));
+					return r;
+				}
+			}
+			else if(x < r.x)
+			{
+				r.left=Delete(r.left,x);
+				return r;
+			}
+			else
+			{
+				r.right = Delete(r.right, x);
+				return r;
+			}
+		}
+	}
