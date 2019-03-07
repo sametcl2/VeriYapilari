@@ -1,0 +1,52 @@
+public class Merge {
+	//MergeSort  JAVA
+	public static void main(String[] args) {
+		int[] dizi= {15,4,40,25,20,60,100,7,6,2,1};
+		MergeSort(dizi);
+		for (int i : dizi) {
+			System.out.println(i);
+		}
+	}
+	
+	private static void MergeSort(int[] array) {
+		if(array.length>1) {
+			int n=array.length/2;
+			int[] left=new int[n];
+			int[] right=new int[array.length-n];			
+			for (int i = 0; i < n; i++) {
+				left[i]=array[i];
+			}
+			for (int i = n ; i < array.length; i++) {
+				right[i-n]=array[i];
+			}
+			MergeSort(left);
+	  		MergeSort(right);
+			Merge(left, right, array);
+		}
+	}
+	
+	private static void Merge(int[] left, int[] right, int[] array) {
+		int l=0, r=0, a=0;
+		while(l<left.length && r<right.length) {
+			if(left[l]<right[r]) {
+				array[a]=left[l];
+				l++;
+				a++;
+			}else {
+				array[a]=right[r];
+				r++;
+				a++;
+			}
+		}
+		while(l<left.length) {
+			array[a]=left[l];
+			l++;
+			a++;
+		}
+		while(r<right.length) {
+			array[a]=right[r];
+			r++;
+			a++;
+		}
+	}
+}

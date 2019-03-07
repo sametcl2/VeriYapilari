@@ -1,0 +1,38 @@
+public class Quick {
+	//QuickSort JAVA
+	public static void main(String[] args) {
+		int[] dizi= {7,2,1,6,8,5,3,4};
+		QuickSort(dizi, 0, dizi.length-1);
+		for (int i : dizi) {
+			System.out.println(i);
+		}
+	}
+	
+	private static void QuickSort(int[] A, int p, int q) {
+		if(p<q) {
+			int x =pivotBul(A, p, q); //p=0, q=7
+			QuickSort(A, p, x-1);
+			QuickSort(A, x+1, q);
+		}
+	}
+	
+	private static int pivotBul(int[] A, int z, int p) { //z=p, p=q
+		int pivot=p;
+		int tut=0;
+		for (int i = 0; i <=p; i++) {
+			if(A[i]<A[pivot]) {
+				int temp=A[i];
+				A[i]=A[tut];
+				A[tut]=temp;
+				tut++;
+			}
+			if(i==p) {
+				int temp=A[tut];
+				A[tut]=A[pivot];
+				A[pivot]=temp;
+				pivot=tut;
+			}
+		}
+		return pivot;
+	}
+}
